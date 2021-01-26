@@ -1,10 +1,28 @@
 from Utilitys.WaitUtils import WaitUtils
-
+from functools import wraps
 
 class Find:
 
     def __init__(self):
         pass
+
+    def find_log_decorator(func):
+        """
+        输出Exception的装饰器
+        :param func:
+        :return:
+        """
+
+        @wraps(func)
+        def wrapper(*args):
+            try:
+                result = func(*args)
+            except Exception as e:
+                logging.error(func.__name__ + ' run failed')
+                raise Exception("Cannot find element by [%s]:under:\n %s \n" % (args[1], args[2]))
+            return result
+
+        return wrapper
 
     def get_driver(self):
         pass
@@ -15,16 +33,14 @@ class Find:
     def _refresh(self):
         pass
 
+    @find_log_decorator
     def find_element(self, by, value):
-        try:
             try:
                 return self._appium_context().find_element(by, value)
             except Exception as handleRetry:
                 self._refresh()
                 WaitUtils.wait_for_element_present(self._appium_context(), by, value)
                 return self._appium_context().find_element(by, value)
-        except Exception as e:
-            raise Exception("Cannot find element by [%s]:[%s] under:\n %s \n" % (by, value, self))
 
     def find_elements(self, by, value, number=1):
         try:

@@ -5,6 +5,7 @@ from selenium.webdriver import ActionChains
 from Element.Waitor import Waitor
 from Element.Find import Find
 from Utilitys.WaitUtils import WaitUtils
+from functools import wraps
 
 
 class Element(Find):
@@ -14,6 +15,24 @@ class Element(Find):
         self.driver = driver
         self.interval = 0.5
         self.timeout = 20
+
+    def general_log_decorator(func):
+        """
+        输出日志的装饰器
+        :param func:
+        :return:
+        """
+
+        @wraps(func)
+        def wrapper(*args):
+            try:
+                result = func(*args)
+            except Exception as e:
+                logging.error(func.__name__ + ' run failed')
+                raise e
+            return result
+
+        return wrapper
 
     def wait_for(self):
         return Waitor(self, self.interval, self.timeout)
@@ -29,18 +48,16 @@ class Element(Find):
 
     def set_timeout(self, timeout):
         self.timeout = timeout
-
+    
+    @general_log_decorator
     def find_element_click(self, by, value):
-        try:
+        try
             self.driver.find_element(by, value).click()
         except Exception as handleRetry:
             try:
                 WaitUtils.wait_for_element_clickable(self.driver, by, value)
                 self.driver.find_element(by, value).click()
-            except WebDriverException as e:
-                raise e
-            except Exception:
-                raise Exception("Cannot find element by [%s]:[%s] under:\n %s \n" % (by, value, self))
+
 
     def find_element_sendkeys(self, by, value, keys):
         try:
