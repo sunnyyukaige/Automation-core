@@ -1,0 +1,7 @@
+version_prefix: 0.1
+build:
+  steps:
+    - PYENV_VERSION=3.6.5 LC_ALL=C.UTF-8 LANG=C.UTF-8 make install.build ffbuild
+tech_spec:
+  tech_type: python
+  tech_version: 3.6
