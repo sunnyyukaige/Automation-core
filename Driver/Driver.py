@@ -194,16 +194,6 @@ class Driver(Find, FlutterFind):
     def hide_keyboard(self):
         self.__app_driver.find_element_by_xpath("//UIAButton[@name='Hide keyboard']").click()
 
-    def scroll_to(self, element):
-        SeleniumUtils.scroll_to(self._appium_context(), element)
-
-    def scroll_down(self):
-        pass
-
-    # SeleniumUtils.scroll_to_direction(self._selenium_context(), "Down")
-
-    # self._web_driver().swipe(0,0,768,1184)
-
     def close_App(self):
         self.__app_driver.close_app()
         self.__app_driver.quit()
@@ -232,3 +222,12 @@ class Driver(Find, FlutterFind):
 
     def switch_to_flutter(self):
         self.__app_driver._switch_to.context('FLUTTER')
+
+    def scroll(self, element_start, element_end, duration=None):
+        self._app_driver().scroll(element_start, element_end, duration)
+
+    def swipe(self, start_x, start_y, end_x, end_y, duration=None):
+        self._app_driver().swipe(start_x, start_y, end_x, end_y, duration)
+
+
+
