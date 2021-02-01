@@ -181,6 +181,14 @@ class Element(Find):
         self.driver.execute_script('mobile: swipe', {'direction': direction})
 
     @general_log_decorator
+    def android_scroll_by_direction(self, direction, percent=1.0):
+        self.driver.execute_script('mobile: scrollGesture', {'direction': direction, 'percent': percent})
+
+    @general_log_decorator
+    def android_swipe_by_direction(self, direction, percent=1.0):
+        self.driver.execute_script('mobile: swipeGesture', {'direction': direction,  'percent': percent})
+
+    @general_log_decorator
     def find_elements_click(self, by, value, index):
         elements = self.driver.find_elements(by, value)
         elements[index].click()
@@ -207,6 +215,6 @@ class Element(Find):
                 WaitUtils.wait_for_element_visible(self.driver, by, value)
                 return self.driver.find_element(by, value).is_enabled()
             except Exception as e:
-                raise e
+                return False
 
     # TODO: We need to wrap more method here.

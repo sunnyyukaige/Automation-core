@@ -25,6 +25,7 @@ class Find:
             WaitUtils.wait_for_element_present(self._appium_context(), by, value)
             return self._appium_context().find_element(by, value)
 
+    @find_log_decorator
     def find_elements(self, by, value, number=1):
         try:
             if len(self.__find_elements(by, value)) >= number:
