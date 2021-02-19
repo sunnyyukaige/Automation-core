@@ -13,9 +13,6 @@ $ appium
           $  python   
            ) 
            check install successful
-## •	Install appium python client (use command  python setup.py install )
-## •	Install Genymotion from https://www.genymotion.com/  and  add Google Nexus 6P - 6.0.0 - API 23 - 1440x2560 virtual device
-
  
  -------------------------------华丽分界线------------------------------------------------------  
 
