@@ -186,7 +186,7 @@ class Element(Find):
 
     @general_log_decorator
     def android_swipe_by_direction(self, direction, percent=1.0):
-        self.driver.execute_script('mobile: swipeGesture', {'direction': direction,  'percent': percent})
+        self.driver.execute_script('mobile: swipeGesture', {'direction': direction, 'percent': percent})
 
     @general_log_decorator
     def find_elements_click(self, by, value, index):
@@ -216,5 +216,23 @@ class Element(Find):
                 return self.driver.find_element(by, value).is_enabled()
             except Exception as e:
                 return False
+
+    @general_log_decorator
+    def web_page_scroll_to_element(self, element):
+        self.driver.execute_script('arguments[0].scrollIntoView(true);', element)
+
+    @general_log_decorator
+    def shake_android(self, shake_times=1, shake_from='25.00'):
+        """
+        This method is only for android system
+        :param shake_times: shake times
+        :param shake_from: shake x,y,z
+        :return: NA
+        """
+        for i in range(shake_times):
+            command = "sensor set acceleration " + shake_from + ":" + shake_from + ":" + shake_from
+            self.driver.execute_script('mobile: execEmuConsoleCommand', {'command': command})
+        command = "sensor set acceleration 0.00:9.81:0.00"
+        self.driver.execute_script('mobile: execEmuConsoleCommand', {'command': command})
 
     # TODO: We need to wrap more method here.
